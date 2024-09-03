@@ -1,0 +1,87 @@
+SQL QUERIES
+
+1.
+SELECT *
+FROM users
+WHERE users.DateOfBirth BETWEEN '2000-01-01' AND '2004-12-31'; 
+
+2.
+SELECT
+posts.PostID,
+posts.PostDescription,
+posts.PostedBy
+FROM posts
+INNER JOIN users ON
+posts.PostID = users.UserID
+WHERE users.UserID LIKE '%4%';
+
+3.
+SELECT
+groups.GroupName 
+FROM groups;
+
+4.
+SELECT
+users.UserID,
+users.FirstName,
+users.LastName,
+COUNT(groupmembershiprequests.GroupMemberShipRequestsID) AS Requests
+FROM users
+JOIN groupmembershiprequests ON
+users.UserID = groupmembershiprequests.GroupMemberShipRequestsID 
+WHERE users.UserID LIKE '%2%'
+GROUP BY users.UserID
+
+5. 
+SELECT
+users.UserID,
+users.FirstName,
+users.LastName,
+COUNT(friends.IsAccepted IS TRUE) as friends
+FROM users
+JOIN friends ON
+users.UserID = friends.FriendID
+WHERE users.UserID LIKE '%2%'
+GROUP BY users.UserID
+
+6.
+SELECT
+users.UserID,
+users.FirstName,
+users.LastName,
+COUNT(friends.FriendWhoAdded)AS friend_requests,
+friends.IsAccepted
+FROM users
+JOIN friends ON
+users.UserID = friends.FriendID 
+WHERE users.UserID LIKE '%1%'
+GROUP BY users.UserID
+
+7. 
+SELECT
+posts.PostDescription,
+posts.PostedBy,
+posts.GroupID
+FROM
+posts
+JOIN groups ON
+posts.PostID = groups.GroupID
+WHERE posts.GroupID LIKE '%2%'
+GROUP BY posts.PostedBy
+
+8.
+SELECT
+groupmembershiprequests.GroupMemberShipRequestsID,
+groupmembershiprequests.GroupID,
+groupmembershiprequests.IsGroupMemberShipAccepted
+FROM groupmembershiprequests
+JOIN groups ON
+groupmembershiprequests.GroupMemberShipRequestsID = groups.GroupID
+WHERE groupmembershiprequests.GroupMemberShipRequestsID LIKE '%2%' AND
+groupmembershiprequests.IsGroupMemberShipAccepted IS NOT TRUE 
+GROUP BY groups.GroupID
+
+
+
+
+
